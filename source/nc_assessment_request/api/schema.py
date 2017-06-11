@@ -10,17 +10,13 @@ class AssessmentRequestSchema(ma.Schema):
 
     class Meta:
         # Fields to include in the serialized result.
-        fields = (
-            "id", "user", "pathname", "status",
-            "posted_at", "patched_at", "_links"
-        )
+        fields = ("id", "plan", "status", "posted_at", "patched_at", "_links")
 
     id = fields.UUID(dump_only=True)
-    user = fields.UUID(required=True)
+    plan = fields.Str(required=True, validate=Length(min=1))
     status = fields.Str(dump_only=True,
         validate=OneOf(["pending", "queued", "executing", "failed",
             "succeeded"]))
-    pathname = fields.Str(dump_only=True)
     posted_at = fields.DateTime(dump_only=True)
     patched_at = fields.DateTime(dump_only=True)
     _links = ma.Hyperlinks({
@@ -64,7 +60,7 @@ class AssessmentRequestSchema(ma.Schema):
             data):
         return AssessmentRequestModel(
             id=uuid.uuid4(),
-            user=data["user"],
+            plan=data["plan"],
             status="pending",
             posted_at=datetime.datetime.utcnow(),
             patched_at=datetime.datetime.utcnow(),

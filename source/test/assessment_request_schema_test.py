@@ -45,21 +45,21 @@ class AssessmentRequestSchemaTestCase(unittest.TestCase):
 
         self.assertTrue(errors)
         self.assertEqual(errors, {
-            "user": ["Missing data for required field."],
+            "plan": ["Missing data for required field."],
         })
 
 
-    def test_invalid_user(self):
+    def test_invalid_plan(self):
         client_data = {
             "assessment_request": {
-                "user": "blah",
+                "plan": "",
             }
         }
         data, errors = self.schema.load(client_data)
 
         self.assertTrue(errors)
         self.assertEqual(errors, {
-            "user": ["Not a valid UUID."],
+            "plan": ["Shorter than minimum length 1."],
         })
 
 
@@ -67,7 +67,7 @@ class AssessmentRequestSchemaTestCase(unittest.TestCase):
 
         client_data = {
             "assessment_request": {
-                "user": uuid.uuid4(),
+                "plan": "plans/plan_a",
             }
         }
         data, errors = self.schema.load(client_data)
@@ -77,11 +77,11 @@ class AssessmentRequestSchemaTestCase(unittest.TestCase):
         self.assertTrue(hasattr(data, "id"))
         self.assertTrue(isinstance(data.id, uuid.UUID))
 
+        self.assertTrue(hasattr(data, "plan"))
+        self.assertEqual(data.plan, "plans/plan_a")
+
         self.assertTrue(hasattr(data, "status"))
         self.assertEqual(data.status, "pending")
-
-        self.assertTrue(hasattr(data, "pathname"))
-        self.assertEqual(data.pathname, None)
 
         self.assertTrue(hasattr(data, "posted_at"))
         self.assertTrue(isinstance(data.posted_at, datetime.datetime))
@@ -98,9 +98,8 @@ class AssessmentRequestSchemaTestCase(unittest.TestCase):
         assessment_request = data["assessment_request"]
 
         self.assertTrue("id" in assessment_request)
-        self.assertTrue("user" in assessment_request)
+        self.assertTrue("plan" in assessment_request)
         self.assertTrue("status" in assessment_request)
-        self.assertTrue("pathname" in assessment_request)
         self.assertTrue("posted_at" in assessment_request)
         self.assertTrue("patched_at" in assessment_request)
 

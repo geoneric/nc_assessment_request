@@ -1,11 +1,10 @@
-from sqlalchemy_utils import JSONType, UUIDType
+from sqlalchemy_utils import UUIDType
 from .. import db
 
 
 class AssessmentRequestModel(db.Model):
     id = db.Column(UUIDType(), primary_key=True)
-    user = db.Column(UUIDType())
+    plan = db.Column(db.UnicodeText)
     status = db.Column(db.Unicode(40))
-    pathname = db.Column(db.UnicodeText)
     posted_at = db.Column(db.DateTime)
     patched_at = db.Column(db.DateTime)

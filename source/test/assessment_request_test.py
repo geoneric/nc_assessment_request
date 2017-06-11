@@ -21,13 +21,13 @@ class AssessmentRequestTestCase(unittest.TestCase):
         db.create_all()
 
         self.assessment_request1 = {
-            "user": uuid.uuid4(),
+            "plan": "plans/plan_a",
         }
         self.assessment_request2 = {
-            "user": uuid.uuid4(),
+            "plan": "plans/plan_b",
         }
         self.assessment_request3 = {
-            "user": uuid.uuid4(),
+            "plan": "plans/plan_c",
         }
 
 
@@ -55,10 +55,10 @@ class AssessmentRequestTestCase(unittest.TestCase):
 
         payloads = [
             {
-                "user": self.assessment_request1["user"],
+                "plan": self.assessment_request1["plan"],
             },
             {
-                "user": self.assessment_request2["user"],
+                "plan": self.assessment_request2["plan"],
             },
         ]
 
@@ -126,15 +126,12 @@ class AssessmentRequestTestCase(unittest.TestCase):
         self.assertTrue("id" in assessment_request)
         self.assertTrue(isinstance(assessment_request["id"], str))
 
-        self.assertTrue("user" in assessment_request)
-        self.assertEqual(assessment_request["user"],
-            str(self.assessment_request1["user"]))
+        self.assertTrue("plan" in assessment_request)
+        self.assertEqual(assessment_request["plan"],
+            str(self.assessment_request1["plan"]))
 
         self.assertTrue("status" in assessment_request)
         self.assertEqual(assessment_request["status"], "pending")
-
-        self.assertTrue("pathname" in assessment_request)
-        self.assertEqual(assessment_request["pathname"], None)
 
         self.assertTrue("posted_at" in assessment_request)
         self.assertTrue("patched_at" in assessment_request)
@@ -189,15 +186,12 @@ class AssessmentRequestTestCase(unittest.TestCase):
         self.assertTrue("id" in assessment_request)
         self.assertTrue(isinstance(assessment_request["id"], str))
 
-        self.assertTrue("user" in assessment_request)
-        self.assertEqual(assessment_request["user"],
-            str(self.assessment_request3["user"]))
+        self.assertTrue("plan" in assessment_request)
+        self.assertEqual(assessment_request["plan"],
+            str(self.assessment_request3["plan"]))
 
         self.assertTrue("status" in assessment_request)
         self.assertEqual(assessment_request["status"], "pending")
-
-        self.assertTrue("pathname" in assessment_request)
-        self.assertEqual(assessment_request["pathname"], None)
 
         self.assertTrue("posted_at" in assessment_request)
         self.assertTrue("patched_at" in assessment_request)
