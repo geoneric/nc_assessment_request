@@ -1,12 +1,19 @@
 from flask import Flask, jsonify
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
+from flask_uploads import ARCHIVES, configure_uploads, patch_request_class, UploadSet
 import starling.flask.error_handler
 from .configuration import configuration
 
 
 db = SQLAlchemy()
 ma = Marshmallow()
+
+
+uploaded_results = UploadSet(
+    name="result",
+    extensions=ARCHIVES
+)
 
 
 def create_app(
@@ -17,6 +24,10 @@ def create_app(
     configuration_.init_app(app)
 
     starling.flask.error_handler.register(app)
+
+
+    configure_uploads(app, (uploaded_results,))
+    patch_request_class(app, 50 * 1024 * 1024)  # <= 50 MiB
 
 
     # Order matters.

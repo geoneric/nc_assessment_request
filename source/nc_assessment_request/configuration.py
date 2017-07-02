@@ -9,6 +9,10 @@ class Configuration:
         "yabbadabbadoo!"
     JSON_AS_ASCII = False
 
+    UPLOADS_DEFAULT_DEST = \
+        os.environ.get("NC_UPLOADS_DEFAULT_DEST") or \
+        tempfile.gettempdir()
+
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

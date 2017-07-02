@@ -109,6 +109,7 @@ class AssessmentRequestSchemaTestCase(unittest.TestCase):
 
         self.assertTrue("self" in links)
         self.assertTrue("collection" in links)
+        self.assertFalse("result" in links)
 
 
 if __name__ == "__main__":
